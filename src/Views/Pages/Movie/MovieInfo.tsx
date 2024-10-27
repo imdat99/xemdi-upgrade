@@ -33,7 +33,13 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
         []
     )
     return (
-        <div className="mobile-main mobile-main-type">
+        <div className="mobile-main mobile-main-type skeleton-text">
+            {/* <div className="skeleton-text">
+                <div className="line"></div>
+                <div className="line"></div>
+                <div className="line short"></div>
+            </div> */}
+
             <ul className="fixed-nav">
                 <li
                     className="fixed-nav-content flext ShareButton"
@@ -57,23 +63,23 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                 style={{ paddingBottom: 15 }}
                 ref={imgBlock}
             >
-                <div className='absolute h-100 w-100'>
+                <div className="absolute h-100 w-100">
                     <img
-                            data-animated
-                            src="/images/1px.png"
-                            lazy-src={buildWebpImageUrl(
-                                movieInfo?.slug,
-                                ImageTypes.poster
-                            )}
-                            alt=""
-                            className='absolute movie-detail-poster'
-                            // className="h-full aspect-video m-auto flex-shrink-0 object-cover opacity-0"
-                        />
-                        <div className="left-layer w-100 h-100"></div>
-                        <div className="absolute backdrop-blur w-100 h-100" />
+                        data-animated
+                        src="/images/1px.png"
+                        lazy-src={buildWebpImageUrl(
+                            movieInfo?.slug,
+                            ImageTypes.poster
+                        )}
+                        alt=""
+                        className="absolute movie-detail-poster"
+                        // className="h-full aspect-video m-auto flex-shrink-0 object-cover opacity-0"
+                    />
+                    <div className="left-layer w-100 h-100"></div>
+                    <div className="absolute backdrop-blur w-100 h-100" />
                 </div>
                 <div className="flex b-t p-2 relative">
-                    <div className="poster relative" >
+                    <div className="poster relative">
                         <div
                             className="movie-post-lazyload Lazy"
                             data-original=""
@@ -94,12 +100,24 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                     </div>
                     <div className="title-block detail">
                         <div className="movie-info">
-                            <h1 className="movie-title" title={movieInfo?.name}>
-                                {movieInfo?.name}{' '}
-                            </h1>
-                            <h2 className="movie-title movie-sub-title">
-                                {movieInfo?.origin_name}
-                            </h2>
+                            {movieInfo?.name ? (
+                                <>
+                                    <h1
+                                        className="movie-title"
+                                        title={movieInfo?.name}
+                                    >
+                                        {movieInfo?.name}{' '}
+                                    </h1>
+                                    <h2 className="movie-title movie-sub-title">
+                                        {movieInfo?.origin_name}
+                                    </h2>
+                                </>
+                            ) : (
+                                <>
+                                    <h1 className="movie-title line short"></h1>
+                                    <h1 className="movie-title line short-30"></h1>
+                                </>
+                            )}
                         </div>
                         <div className="scroll-content">
                             {movieInfo?.category.map((category, index) => (
@@ -137,21 +155,32 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                             <strong>Trạng thái：</strong>
                             {movieInfo?.status}
                         </div>
-                        <div className='mt-auto flex'>
-                            <button className='btn playbtn'>
+                        <div className="mt-auto flex">
+                            <button className="btn playbtn">
                                 <i className="iconfont2 hl-icon-shipin-fill mr-1" />
                                 <span>Phát</span>
                             </button>
-                            <button className='btn fnBtn ml-1' title='Tuỳ chọn (danh sách phát/ Thông báo)'>
-                            <i style={{
-                                    fontSize: "1.5rem"
-                                }} className="iconfont icon-liebiao gradient text-transparent" />
+                            <button
+                                className="btn fnBtn ml-1"
+                                title="Tuỳ chọn (danh sách phát/ Thông báo)"
+                            >
+                                <i
+                                    style={{
+                                        fontSize: '1.5rem',
+                                    }}
+                                    className="iconfont icon-liebiao gradient text-transparent"
+                                />
                             </button>
                         </div>
-                        
                     </div>
                 </div>
                 <div className="summary detailsTxt">
+                    {movieInfo?.name ?? (
+                        <>
+                            <div className="line mt-1"></div>
+                            <div className="line mt-1"></div>
+                        </>
+                    )}
                     {movieInfo?.content}
                     <div className="ectogg" onClick={handleExpand}>
                         <span>Mở rộng</span>
@@ -187,7 +216,9 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                             <button
                                 className="comment_submit btn active"
                                 type="button"
-                            >Đăng</button>
+                            >
+                                Đăng
+                            </button>
                         </div>
                     </form>
                     <div></div>

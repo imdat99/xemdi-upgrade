@@ -66,7 +66,8 @@ export async function render(
                     <link rel="manifest" href="/site.webmanifest">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0" />`
         + styleStr
-        + fastRefresh + scripts
+        + fastRefresh 
+        + scripts
         +
         Object.values(helmetContext.helmet).map((value) => value.toString()).filter(Boolean).join('') +
         '</head>';

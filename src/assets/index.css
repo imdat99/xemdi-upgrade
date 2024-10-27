@@ -2116,7 +2116,9 @@ textarea {
   display: flex;
   flex-direction: column;
 }
-
+.title-block.detail {
+  max-width: 880px;
+}
 .title-block .movie-title {
   font-size: var(--font-large);
   font-weight: 600;
@@ -3058,4 +3060,36 @@ background: #2346C3;
   border: var(--STUI-COLOR-0) 1px solid;
   background: transparent;
   text-align: center;
+}
+.skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.line {
+  width: 100%;
+  height: 16px;
+  background-color: var(--STUI-BG-2);
+  border-radius: 4px;
+  animation: skeleton-loading 1.5s infinite linear;
+}
+
+.line.short {
+  width: 60%;
+}
+.line.short-30 {
+  width: 30%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+      background-color: var(--STUI-BG-2);
+  }
+  50% {
+      background-color: var(--STUI-BG-3);
+  }
+  100% {
+      background-color: var(--STUI-BG-2);
+  }
 }

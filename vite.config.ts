@@ -2,6 +2,7 @@ import path from "path"
 import { UserConfig, defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc';
 import tsConfigPaths from 'vite-tsconfig-paths';
+import babel from "vite-plugin-babel";
 // import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
@@ -28,11 +29,25 @@ const devConfig: UserConfig = {
     plugins: [
         react(),
         tsConfigPaths(),
+        babel({
+            filter: /\.[jt]sx?$/,
+            babelConfig: {
+              presets: ["@babel/preset-typescript"], // if you use TypeScript
+              plugins: [
+                ["babel-plugin-react-compiler", {
+                    target: "18"
+                }],
+              ],
+            },
+          }),
         // federation({
 
         // }),
         // cssInjectedByJsPlugin()
     ],
+    server: {
+        hmr: true
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),

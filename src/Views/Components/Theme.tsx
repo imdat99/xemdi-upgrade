@@ -18,7 +18,9 @@ export const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
     React.useEffect(() => {
         setCookie(storageThemeKey, context[0])
         const root = window.document.documentElement
-        root.attributes.removeNamedItem('xemdi-theme')
+        if (root && root.hasAttribute("xemdi-theme")) {
+            root.attributes.removeNamedItem('xemdi-theme')
+        }
         root.attributes.setNamedItem(document.createAttribute('xemdi-theme'))
         root.setAttribute('xemdi-theme', context[0])
     }, [context])

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/server",
+    "dev:client": "vite",
     "build": "yarn run clean && yarn build:client && yarn build:server",
     "build:client": "vite build --outDir dist/client --ssrManifest",
     "build:server1": "vite build --outDir dist/server --ssr ./entry-server.tsx",
@@ -17,7 +18,6 @@
   "dependencies": {
     "@types/node": "^22.5.5",
     "@types/serve-static": "^1.15.7",
-    "@vitejs/plugin-react-swc": "^3.7.0",
     "cross-env": "^7.0.3",
     "h3": "^1.12.0",
     "isomorphic-fetch": "^3.0.0",
@@ -33,20 +33,28 @@
     "swr": "^2.2.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
     "@eslint/js": "^9.9.0",
     "@originjs/vite-plugin-federation": "^1.3.6",
     "@types/isomorphic-fetch": "^0.0.39",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "babel-plugin-react-compiler": "^19.0.0-beta-8a03594-20241020",
     "eslint": "^9.9.0",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-8a03594-20241020",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "jiti": "^1.21.6",
+    "react-compiler-runtime": "^19.0.0-beta-8a03594-20241020",
     "tsx": "^4.19.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
+    "vite-plugin-babel": "^1.2.0",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "prettier": {

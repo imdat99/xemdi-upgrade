@@ -66,6 +66,7 @@ async function configProd(app: App) {
 async function configDev(app: App) {
     // dev mode, configure vite as middleware
     const vite = await (await import('vite')).createServer({
+        configFile: "./vite.config.ts",
         root: process.cwd(),
         server: {
             middlewareMode: true,
