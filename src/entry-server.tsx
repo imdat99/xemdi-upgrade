@@ -48,29 +48,32 @@ export async function render(
             ) || {}
 
     // const ggAnalytics = import.meta.env.DEV ? '' : `<script async src="https://www.googletagmanager.com/gtag/js?id=G-JHH53M709Q"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-JHH53M709Q');</script>`
-    const fastRefresh = import.meta.env.DEV ? `<script type="module" src="/@vite/client"></script><script type="module" src="/src/refresh-hack.js"></script>` : ''
-    const scripts = import.meta.env.PROD ? listScript.map((url) => `<link rel="preload" href="${url}" as="script" crossorigin="anonymous" />`).join('') : "";
-    const styleStr = styles.map((url) => `<link rel="stylesheet" href="${url}" /><link rel="preload" href="${url}" as="style"/>`).join('');
-    const header =
-        `<!DOCTYPE html>
-                <html lang="en" xemdi-theme="${cookies[storageThemeKey]}">
-                <head>
-                    <meta charset="utf-8" />
-                    <link rel="icon" href="favicon.ico" />
-                    <meta name="theme-color" content="#000000" />
-                    <meta name="application-name" content="MOVIE Xemdi" />
-                    <meta name="author" content="Xemdi.fun" />
-                    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-                    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-                    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-                    <link rel="manifest" href="/site.webmanifest">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />`
-        + styleStr
-        + fastRefresh 
-        + scripts
-        +
-        Object.values(helmetContext.helmet).map((value) => value.toString()).filter(Boolean).join('') +
-        '</head>';
+    function header() {
+        const fastRefresh = import.meta.env.DEV ? `<script type="module" src="/@vite/client"></script><script type="module" src="/src/refresh-hack.js"></script>` : ''
+        const scripts = import.meta.env.PROD ? listScript.map((url) => `<link rel="preload" href="${url}" as="script" crossorigin="anonymous" />`).join('') : "";
+        const styleStr = styles.map((url) => `<link rel="stylesheet" href="${url}" /><link rel="preload" href="${url}" as="style"/>`).join('');
+        const header =
+            minifyJavaScript(`<!DOCTYPE html>
+                    <html lang="en" xemdi-theme="${cookies[storageThemeKey]}">
+                    <head>
+                        <meta charset="utf-8" />
+                        <link rel="icon" href="favicon.ico" />
+                        <meta name="theme-color" content="#000000" />
+                        <meta name="application-name" content="MOVIE Xemdi" />
+                        <meta name="author" content="Xemdi.fun" />
+                        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+                        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+                        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+                        <link rel="manifest" href="/site.webmanifest">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />`)
+            + styleStr
+            + fastRefresh 
+            + scripts
+            +
+            Object.values(helmetContext.helmet).map((value) => value.toString()).filter(Boolean).join('') +
+            '</head>';
+        return header;
+    }
 
     // const stream = new ReadableStream();
     const body = new PassThrough();
@@ -86,7 +89,7 @@ export async function render(
         </Html>,
         {
             onShellReady() {
-                body.write(minifyJavaScript(header));
+                body.write(header());
                 pipe(body);
                 body.end('</html>');
             },
@@ -94,7 +97,9 @@ export async function render(
         }
     )
     setResponseHeader(event, 'content-type', 'text/html');
+  
     return body;
+    // body.pipe(event.node.res);
 }
 
 async function createFetchRequest(event: H3Event<EventHandlerRequest>): Promise<Request> {

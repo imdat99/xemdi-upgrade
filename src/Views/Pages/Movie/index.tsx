@@ -16,7 +16,6 @@ const Movie = () => {
         revalidateIfStale: false,
         revalidateOnFocus: false,
     })
-
     const movieInfo = React.useMemo(() => data?.data.item, [data])
     React.useEffect(() => {
         scrollToTop()
