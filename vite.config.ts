@@ -64,7 +64,8 @@ const devConfig: UserConfig = {
                 name: "remove-router-version",
                 async transform(code) {
                     return code.replace("window.__reactRouterVersion", "window.__reactRouterVersion=\"https://dat09.dev\";window.__movie")
-                    // .replace("__staticRouterHydrationData", "__xemdiPreloadData")
+                    .replace("%c ArtPlayer %c", "%c XemĐi %c")
+                    .replace("https://artplayer.org", "https://xemdi.fun")
                 }
               }],
             input: './src/main.tsx',

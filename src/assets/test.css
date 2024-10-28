@@ -40,3 +40,13 @@
     width: 180px;
     right: -80px;
 }
+.bell-icon {
+    display:inline-block;
+    height: 0.7em;
+    width:0.5em;
+    background:currentColor;
+    -webkit-mask:url('/images/bell.svg') center/cover;
+  }
+.text-center {
+    text-align: center;
+}

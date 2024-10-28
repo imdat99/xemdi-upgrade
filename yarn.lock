@@ -1159,6 +1159,13 @@ argparse@^2.0.1:
   resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz"
   integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
+artplayer@^5.2.1:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/artplayer/-/artplayer-5.2.1.tgz#f31db7cfad0beeb71412517541fef0d5830f64b1"
+  integrity sha512-xhNE9zSLT2z4O2CJwcMSWADsS3Cvq0PwNanvMzRsqgfUhsMOpum8HlMtIUPOTyMGjIhKV8sl109HFUalQK6WJQ==
+  dependencies:
+    option-validator "^2.0.6"
+
 babel-plugin-react-compiler@^19.0.0-beta-8a03594-20241020:
   version "19.0.0-beta-8a03594-20241020"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-compiler/-/babel-plugin-react-compiler-19.0.0-beta-8a03594-20241020.tgz#e7c76576f5d5ca1faa248163a34e1d7262b464dc"
@@ -1767,6 +1774,11 @@ hermes-parser@^0.20.1:
   dependencies:
     hermes-estree "0.20.1"
 
+hls.js@^1.5.17:
+  version "1.5.17"
+  resolved "https://registry.yarnpkg.com/hls.js/-/hls.js-1.5.17.tgz#8a4a9bae2df4dab23168156f5f7d0f39a71026fd"
+  integrity sha512-wA66nnYFvQa1o4DO/BFgLNRKnBTVXpNeldGRBJ2Y0SvFtdwvFKCbqa9zhHoZLoxHhZ+jYsj3aIBkWQQCPNOhMw==
+
 http-errors@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/http-errors/-/http-errors-2.0.0.tgz"
@@ -1916,6 +1928,11 @@ keyv@^4.5.4:
   dependencies:
     json-buffer "3.0.1"
 
+kind-of@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
+  integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
+
 levn@^0.4.1:
   version "0.4.1"
   resolved "https://registry.npmjs.org/levn/-/levn-0.4.1.tgz"
@@ -2064,6 +2081,13 @@ on-finished@2.4.1:
   integrity sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==
   dependencies:
     ee-first "1.1.1"
+
+option-validator@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/option-validator/-/option-validator-2.0.6.tgz#a314dae65e26db5f948ef0ff96fc88f18bb76ed6"
+  integrity sha512-tmZDan2LRIRQyhUGvkff68/O0R8UmF+Btmiiz0SmSw2ng3CfPZB9wJlIjHpe/MKUZqyIZkVIXCrwr1tIN+0Dzg==
+  dependencies:
+    kind-of "^6.0.3"
 
 optionator@^0.9.3:
   version "0.9.4"

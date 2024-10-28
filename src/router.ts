@@ -83,7 +83,7 @@ const router: RouteObject[] = [
             //     },
             // },
             {
-                path: 'movie/:slug/:type?',
+                path: 'movie/:slug',
                 loader: async ({ params }): Promise<SWRConfiguration> => {
                     if (isClient) {
                         return {}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { PassThrough } from "stream";
 import { APP_DOMAIN_CDN_IMAGE, imageCdn, ImageTypes } from "./Constants";
 export const isClient = typeof window !== "undefined"
@@ -107,4 +108,56 @@ export const scrollToTop = () => {
                 window.scrollBy(0, scrollStep)
             } else clearInterval(scrollInterval)
         }, 15)
+}
+export function toSlug(str = '') {
+    try {
+        return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[đĐ]/g, "d").replace(/([^0-9a-z-\s])/g, "").replace(/(\s+)/g, "-").replace(/-+/g, "-").replace(/^-+|-+$/g, "");
+    }
+    catch (e) {
+        console.log(e);
+        return str;
+    }
+}
+
+export function debounce(func: Function, wait: number, immediate?: boolean) {
+    let timeout: NodeJS.Timeout | null;
+    return function (this: any) {
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const context = this;
+        // eslint-disable-next-line prefer-rest-params
+        const args = arguments;
+        const later = function () {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+        };
+        const callNow = immediate && !timeout;
+        if (timeout) {
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+    };
+}
+export function throttle(func: Function, timeFrame: number) {
+    let lastTime = 0;
+    return function (this: any) {
+        const now = Date.now();
+        if (now - lastTime >= timeFrame) {
+            // eslint-disable-next-line prefer-rest-params
+            func.apply(this, arguments);
+            lastTime = now;
+        }
+    };
+  }
+
+export function secondsToHHMMSS(totalSeconds: number): string {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.floor(totalSeconds % 60);
+
+    const hh = hours < 10 ? "0" + hours : hours.toString();
+    const mm = minutes < 10 ? "0" + minutes : minutes.toString();
+    const ss = seconds < 10 ? "0" + seconds : seconds.toString();
+
+    return `${hh}:${mm}:${ss}`;
 }

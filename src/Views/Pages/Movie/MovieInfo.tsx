@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom'
 import PlaySource from './PlaySource'
 
 interface MovieInfoProps {
-    movieInfo?: MovieDetail
+    movieInfo?: MovieDetail;
+    isPlay: boolean;
 }
 
-const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
+const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
     const imgBlock = useLazyImg(movieInfo?.slug)
     const handleExpand = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -34,12 +35,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
     )
     return (
         <div className="mobile-main mobile-main-type skeleton-text">
-            {/* <div className="skeleton-text">
-                <div className="line"></div>
-                <div className="line"></div>
-                <div className="line short"></div>
-            </div> */}
-
             <ul className="fixed-nav">
                 <li
                     className="fixed-nav-content flext ShareButton"
@@ -156,19 +151,19 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                             {movieInfo?.status}
                         </div>
                         <div className="mt-auto flex">
-                            <button className="btn playbtn">
+                            <button className="btn playbtn" disabled={isPlay || movieInfo?.status == 'trailer'}>
                                 <i className="iconfont2 hl-icon-shipin-fill mr-1" />
                                 <span>Phát</span>
                             </button>
                             <button
-                                className="btn fnBtn ml-1"
+                                className="btn fnBtn ml-2"
                                 title="Tuỳ chọn (danh sách phát/ Thông báo)"
                             >
                                 <i
                                     style={{
                                         fontSize: '1.5rem',
                                     }}
-                                    className="iconfont icon-liebiao gradient text-transparent"
+                                    className="iconfont2 hl-icon-jia gradient text-transparent"
                                 />
                             </button>
                         </div>
@@ -188,7 +183,10 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo }) => {
                     </div>
                 </div>
             </div>
+            {/* {movieInfo?.status !== 'trailer' && ()} */}
             <PlaySource
+                trailerUrl={movieInfo?.trailer_url || ''}
+                status={movieInfo?.status !== 'trailer'}
                 episodes={
                     movieInfo?.episodes
                         ? movieInfo?.episodes
