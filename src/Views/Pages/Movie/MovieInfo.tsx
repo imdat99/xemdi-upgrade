@@ -1,7 +1,7 @@
 import useLazyImg from 'Hooks/useLazyImg'
 import { MovieDetail } from 'lib/client'
 import { defaultServerData, ImageTypes } from 'lib/Constants'
-import { buildWebpImageUrl } from 'lib/Utils'
+import { buildOriginImageUrl, buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PlaySource from './PlaySource'
@@ -66,6 +66,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                             movieInfo?.slug,
                             ImageTypes.poster
                         )}
+                        origin-src={buildOriginImageUrl(movieInfo?.poster_url)}
                         alt=""
                         className="absolute movie-detail-poster"
                         // className="h-full aspect-video m-auto flex-shrink-0 object-cover opacity-0"

@@ -71,6 +71,7 @@ export const parseParams = (requestUrl: string) => {
     return obj
 }
 export const repairUrl = (url: string) => {
+    if (!url) return ''
     if (!url.includes('http')) {
         url = `http://${url}`
     }
@@ -99,6 +100,12 @@ export const buildOriginImageUrl = (path: string = '', type: ImageTypes = ImageT
     urlSplit[urlSplit.length - 1] = encodeURIComponent(urlSplit[urlSplit.length - 1]!)
     const nameSet = new Set(urlSplit)
     return repairUrl(Array.from(nameSet).join('/'))
+}
+export function resolveErrorImage(imgSrc: string) {
+    if(imgSrc.includes(imageCdn)) {
+        return buildOriginImageUrl(imgSrc.split("/").at(-1))
+    } 
+    return "/images/1px.png"
 }
 export const scrollToTop = () => {
     if (!isClient) return

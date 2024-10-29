@@ -6,7 +6,6 @@ import {
     createSearchParams,
     useNavigate,
 } from 'react-router-dom'
-import ClientRender from 'Hocs/ClientRender'
 import { MoviesSlugResponseBody } from 'lib/client'
 import { ImageTypes } from 'lib/Constants'
 interface MovieWatchProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,7 +17,7 @@ interface MovieWatchProps extends React.HTMLAttributes<HTMLDivElement> {
 const timeleft = 10
 const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
     ({ className, m3u8Link, posterUrl, name, nextEp }, ref) => {
-        const na = useNavigate()
+        const na = useNavigate();
         const [count, setCount] = React.useState(timeleft)
         const [show, setShow] = React.useState(false)
         const isCount = React.useRef(false)
@@ -72,11 +71,10 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
         //     }, 100),
         //     [ep, server]
         // )
-
         return (
-            <div className={className} ref={ref}>
+            <div className={className} ref={ref} >
                 <Player
-                    className="w-100 h-100 player"
+                    className="w-100 h-100"
                     getInstance={(instance) => {
                         instance.on('video:ended', () => {
                             // console.log('done,')
@@ -167,4 +165,4 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
 )
 
 MovieWatch.displayName = 'MovieWatch'
-export default ClientRender(MovieWatch)
+export default MovieWatch

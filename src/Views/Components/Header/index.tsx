@@ -13,11 +13,10 @@ const Header = () => {
     }, [])
     const handleToggletheme = React.useCallback(() => {
         setTheme((prev: Theme) => (prev === 'dark' ? 'light' : 'dark'))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <>
-            <div className="header header-top">
+            <div className="header header-top relative">
                 <div className="header-box flex">
                     <div className="logo-wrapper">
                         <Link to="/" className="logo">
@@ -97,6 +96,7 @@ const Header = () => {
                         </li>
                     </ul>
                 </div>
+                <div className='absolute h-100 w-100 top-0 left-0 backdrop-blur'></div>
             </div>
         </>
     )

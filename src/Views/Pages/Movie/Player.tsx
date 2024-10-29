@@ -14,7 +14,8 @@ interface PlayerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Player = React.forwardRef<HTMLDivElement, PlayerProps>(
-    ({className, option, getInstance, playPercent}) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ({className, option, getInstance, playPercent}, _ref) => {
         const [isError, setIsError] = React.useState<boolean>(false)
         const playerRef = useRef<HTMLDivElement>(null)
         const artRef = useRef<Artplayer>()
@@ -47,6 +48,7 @@ const Player = React.forwardRef<HTMLDivElement, PlayerProps>(
             5000
         )
         useEffect(() => {
+            if (!option.url) return
             fetch(option.url).then(() => {
                 artRef.current = new Artplayer({
                     ...option,

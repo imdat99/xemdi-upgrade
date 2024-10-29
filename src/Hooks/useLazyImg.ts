@@ -1,4 +1,4 @@
-import { isClient } from 'lib/Utils';
+import { isClient, resolveErrorImage } from 'lib/Utils';
 import React from 'react'
 
 const CHECK_BROWSER = isClient && "IntersectionObserver" in window;
@@ -7,6 +7,7 @@ function loadImg(img: HTMLElement) {
     const url = img.getAttribute("lazy-src");
     const webpSrc = img.getAttribute("src");
     const isAnimate = img.hasAttribute("data-animated")
+    let errTimes = 0
     if (url) {
         if (isAnimate) {
           img.classList.add(
@@ -15,6 +16,10 @@ function loadImg(img: HTMLElement) {
           img.onload = () => {
             img.classList.remove('opacity-0')
             }
+          img.onerror = () => {
+            img.setAttribute('src', !errTimes ? resolveErrorImage(url) : "/images/1px.png")
+            errTimes++;
+          }
         }
         img.style.backgroundImage = `url(${webpSrc})`
         img.setAttribute('src', url)

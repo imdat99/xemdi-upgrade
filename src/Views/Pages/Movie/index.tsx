@@ -8,6 +8,7 @@ import PageSeo from 'Views/Components/PageSeo'
 import TopLoading from 'Views/Components/TopLoading'
 import MovieInfo from './MovieInfo'
 import MovieWatch from './MovieWatch'
+import SafeRender from 'Views/Components/SafeRender'
 
 const Movie = () => {
     // const na = useNavigate()
@@ -16,6 +17,8 @@ const Movie = () => {
     const { data, isLoading } = useSWR(slug, client.v1ApiPhim, {
         revalidateOnFocus: false,
     })
+    const playerRef = React.useRef<HTMLDivElement>(null)
+
     const movieInfo = React.useMemo(() => data?.data.item, [data])
     React.useEffect(() => {
         scrollToTop()
@@ -50,28 +53,36 @@ const Movie = () => {
     }, [ep, server, movieInfo])
     React.useEffect(() => {
         const root = window.document.body
+        const width = document.querySelector(".container")?.clientWidth || 1440
         if (playInfo.link_m3u8 && Number(ep) > 7) {
             ;(
                 document.querySelector('li.more button') as HTMLButtonElement
             )?.click()
         }
         if (playInfo.link_m3u8) {
-            root.classList.add('watch-mode')
+            root.classList.add('watch-mode');
+            playerRef.current?.style.setProperty("height", width * 9 / 16 + "px")
+            playerRef.current?.style.setProperty("opacity", "1");
         } else {
+            playerRef.current?.style.setProperty("height", "0px");
+            playerRef.current?.style.setProperty("opacity", "0");
             root.classList.remove('watch-mode')
         }
     }, [playInfo.link_m3u8])
     return (
         <PageSeo {...(data?.data as React.ComponentProps<typeof PageSeo>)}>
             <TopLoading loading={isLoading} />
-            {playInfo.link_m3u8 && (
+            <SafeRender>
                 <MovieWatch
-                    m3u8Link={playInfo.link_m3u8}
-                    name={movieInfo?.name || ''}
-                    posterUrl={movieInfo?.poster_url || ''}
-                    nextEp={playInfo.nextEp}
+                        className='player'
+                        ref={playerRef}
+                        m3u8Link={playInfo.link_m3u8 || ''}
+                        name={movieInfo?.name || ''}
+                        posterUrl={movieInfo?.poster_url || ''}
+                        nextEp={playInfo.nextEp}
                 />
-            )}
+            </SafeRender>
+                
             <div className="container flex flex-row">
                 <MovieInfo
                     movieInfo={movieInfo}
