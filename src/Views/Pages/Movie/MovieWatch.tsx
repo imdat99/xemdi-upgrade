@@ -1,3 +1,4 @@
+"use client";
 import { buildOriginImageUrl, buildWebpImageUrl, debounce, repairUrl } from 'lib/Utils'
 import React from 'react'
 import Player from './Player'

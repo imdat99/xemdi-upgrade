@@ -1,3 +1,4 @@
+'use client'; 
 import useParseParams from 'Hooks/useParseParams'
 import client from 'lib/client'
 import { scrollToTop, toSlug } from 'lib/Utils'

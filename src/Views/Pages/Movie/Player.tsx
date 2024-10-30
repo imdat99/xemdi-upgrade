@@ -1,3 +1,4 @@
+"use client";
 import {storageTimeKey} from 'lib/Constants'
 import {scrollToTop, secondsToHHMMSS, throttle} from 'lib/Utils'
 import Artplayer from 'artplayer'
@@ -13,9 +14,7 @@ interface PlayerProps extends React.HTMLAttributes<HTMLDivElement> {
     }
 }
 
-const Player = React.forwardRef<HTMLDivElement, PlayerProps>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    ({className, option, getInstance, playPercent}, _ref) => {
+export default function Player({className, option, getInstance, playPercent}: PlayerProps) {
         const [isError, setIsError] = React.useState<boolean>(false)
         const playerRef = useRef<HTMLDivElement>(null)
         const artRef = useRef<Artplayer>()
@@ -117,6 +116,4 @@ const Player = React.forwardRef<HTMLDivElement, PlayerProps>(
             </>
         )
     }
-)
-Player.displayName = 'Player'
-export default Player
+

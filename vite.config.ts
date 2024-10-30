@@ -3,6 +3,7 @@ import { UserConfig, defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc';
 import tsConfigPaths from 'vite-tsconfig-paths';
 import babel from "vite-plugin-babel";
+
 // import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
