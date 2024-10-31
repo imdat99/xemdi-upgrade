@@ -20,7 +20,7 @@ const Header = () => {
                 <div className="header-box flex">
                     <div className="logo-wrapper">
                         <Link to="/" className="logo">
-                            <img src="/logo.webp" />
+                             <img src="/logo.webp" alt='xemdi-logo'/>
                         </Link>
                     </div>
                     <form

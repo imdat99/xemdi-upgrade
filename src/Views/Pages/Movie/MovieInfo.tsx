@@ -59,7 +59,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                 ref={imgBlock}
             >
                 <div className="absolute h-100 w-100">
-                    <img
+                     <img 
                         data-animated
                         src="/images/1px.png"
                         lazy-src={buildWebpImageUrl(
@@ -67,7 +67,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                             ImageTypes.poster
                         )}
                         origin-src={buildOriginImageUrl(movieInfo?.poster_url)}
-                        alt=""
+                        alt={movieInfo?.name}
                         className="absolute movie-detail-poster"
                         // className="h-full aspect-video m-auto flex-shrink-0 object-cover opacity-0"
                     />
@@ -83,7 +83,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                                 backgroundImage: `url('/images/img-bj.png')`,
                             }}
                         />
-                        <img
+                         <img 
                             data-animated
                             className="lazy-img absolute"
                             // lazy-src={buildOriginImageUrl(movieInfo.thumb_url)}
@@ -91,6 +91,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                                 movieInfo?.slug,
                                 ImageTypes.thumb
                             )}
+                            alt='poster'
                             src="/images/1px.png"
                         />
                     </div>

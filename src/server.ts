@@ -13,7 +13,7 @@ import {
 import path from 'path';
 import fs from 'fs';
 import serveStatic from 'serve-static';
-
+import { useCompressionStream } from 'h3-compression'
 // const client = await createClient({ url: "rediss://red-crjrhhjtq21c73a5b7lg:3oQVTSdgID8csHRmLC0ovnC8BZC6AKcQ@singapore-redis.render.com:6379" })
 //   .on('error', err => console.log('Redis Client Error', err))
 //   .connect();
@@ -103,7 +103,8 @@ async function configDev(app: App) {
 const isProd = process.env.NODE_ENV === 'production'
 const port = process.env.PORT || (isProd ? 4173 : 5173)
 const config = isProd ? configProd : configDev
-export const app = createApp();
+// export const app = createApp();
+export const app = createApp({ onBeforeResponse: useCompressionStream });
 config(app).then().catch(console.error)
 
 const server = createServer(toNodeListener(app));

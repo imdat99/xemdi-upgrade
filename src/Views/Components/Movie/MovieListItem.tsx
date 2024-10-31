@@ -4,7 +4,6 @@ import { ImageTypes } from 'lib/Constants'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { buildOriginImageUrl, buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
-import { Helmet } from 'react-helmet-async'
 import { Link } from 'react-router-dom'
 
 interface MovieListItemProps {
@@ -15,9 +14,9 @@ const MovieListItem: React.FC<MovieListItemProps> = ({movieInfo}) => {
     const imgSrc = React.useMemo(() => buildWebpImageUrl(movieInfo.slug, ImageTypes.thumb), [movieInfo.slug])
     return (
         <div className="movie-list-item" ref={imgBlock}>
-            <Helmet>
+            {/* <Helmet>
                 <link rel='prefetch' as="image" href={imgSrc}/>
-            </Helmet>
+            </Helmet> */}
             <Link to={'/movie/'+movieInfo.slug} title={movieInfo.name}>
                 <div className="movie-post-wrapper">
                     <div
@@ -27,7 +26,8 @@ const MovieListItem: React.FC<MovieListItemProps> = ({movieInfo}) => {
                             backgroundImage: `url('/images/img-bj.png')`
                         }}
                     />
-                    <img
+                     <img 
+                        alt={movieInfo.name}
                         className="lazy-img absolute "
                         data-animated='true'
                         // lazy-src={buildOriginImageUrl(movieInfo.thumb_url)}

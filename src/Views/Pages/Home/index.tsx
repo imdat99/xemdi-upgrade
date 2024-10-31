@@ -2,16 +2,19 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/scrollbar'
-import HomeSwiper from './HomeSwiper'
 import { menuList } from 'lib/Constants'
 import { Link } from 'react-router-dom'
 import MovieList from 'Views/Components/Movie/MovieList'
 import useSWR from 'swr'
 import client from 'lib/client'
-import React from 'react'
+import React, { lazy } from 'react'
 import PageSeo from 'Views/Components/PageSeo'
 import TopLoading from 'Views/Components/TopLoading'
 import FooterScroll from 'Views/Components/FooterScroll'
+import AppSuspense from 'Views/Components/AppSuspense'
+import { ClientOnly } from 'Views/Components/SafeRender'
+import useLazyImg from 'Hooks/useLazyImg'
+const HomeSwiper = lazy(() => import("./HomeSwiper"));
 
 const Home = () => {
     const { data, isLoading } = useSWR('home', client.v1ApiHome, {
@@ -21,6 +24,7 @@ const Home = () => {
         () => (data?.data.items ? data.data.items.slice(0, 5) : []),
         [data]
     )
+    const imgRef = useLazyImg(hotCarousel.map((item) => item.thumb_url))
     const [part1, part2] = React.useMemo(() => {
         const middleIndex = Math.ceil((data?.data?.items.length || 0) / 2); 
         return [
@@ -34,25 +38,31 @@ const Home = () => {
             <div className="mobile-main">
             <div className="head flex">
                 <div className="banner">
-                    <HomeSwiper hotCarousel={hotCarousel}/>
+                    <ClientOnly>
+                        <AppSuspense lazyComponent={HomeSwiper} hotCarousel={hotCarousel} />
+                    </ClientOnly>
                 </div>
                 <div className="head-guide">
-                    <div className="head-promotion">
+                    <div className="head-promotion" ref={imgRef}>
                         <div className="left">
-                            <a href="https://www.shoutu.cn" target="_blank">
+                            <a href="https://www.shoutu.cn" className='h-100 w-100 block' target="_blank">
                                 <img
+                                    lazy-src="/images/imagead.png"
+                                    alt='qc1'
                                     width="100%"
                                     height="100%"
-                                    src="/images/imagead.png"
+                                    src="/images/1px.png"
                                 />
                             </a>
                         </div>
                         <div className="right">
-                            <a href="https://www.shoutu.cn" target="_blank">
+                            <a href="https://www.shoutu.cn" className='h-100 w-100 block' target="_blank">
                                 <img
+                                    lazy-src="/images/imagead.png"
+                                    alt='qc2'
                                     width="100%"
                                     height="100%"
-                                    src="/images/imagead.png"
+                                    src='/images/1px.png'
                                 />
                             </a>
                         </div>

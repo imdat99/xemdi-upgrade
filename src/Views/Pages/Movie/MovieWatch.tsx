@@ -1,19 +1,16 @@
-import { buildOriginImageUrl, buildWebpImageUrl, debounce, repairUrl } from 'lib/Utils'
-import React from 'react'
-import Player from './Player'
+import { buildOriginImageUrl, repairUrl } from 'lib/Utils'
+import React, { lazy } from 'react'
 import {
-    Link,
-    createSearchParams,
-    useNavigate,
+    useNavigate
 } from 'react-router-dom'
-import { MoviesSlugResponseBody } from 'lib/client'
-import { ImageTypes } from 'lib/Constants'
+import AppSuspense from 'Views/Components/AppSuspense';
 interface MovieWatchProps extends React.HTMLAttributes<HTMLDivElement> {
-  m3u8Link: string;
-  name: string;
-  posterUrl: string;
-  nextEp: string;
+    m3u8Link: string;
+    name: string;
+    posterUrl: string;
+    nextEp: string;
 }
+const Player = lazy(() => import('./Player'));
 const timeleft = 10
 const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
     ({ className, m3u8Link, posterUrl, name, nextEp }, ref) => {
@@ -73,9 +70,11 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
         // )
         return (
             <div className={className} ref={ref} >
-                <Player
+                {
+                    m3u8Link &&  <AppSuspense
+                    lazyComponent={Player}
                     className="w-100 h-100"
-                    getInstance={(instance) => {
+                    getInstance={(instance: Artplayer) => {
                         instance.on('video:ended', () => {
                             // console.log('done,')
                             // if (
@@ -113,7 +112,7 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
                                 name: 'button1',
                                 index: 10,
                                 position: 'right',
-                                html: '<img width="24" heigth="24" src="/images/next.svg">',
+                                html: ' <img  width="24" heigth="24" src="/images/next.svg">',
                                 tooltip: 'Tiến 10s',
                                 click: function () {
                                     this.forward = 10
@@ -123,7 +122,7 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
                                 name: 'button2',
                                 index: 10,
                                 position: 'right',
-                                html: '<img width="24" heigth="24" src="/images/prev.svg">',
+                                html: ' <img  width="24" heigth="24" src="/images/prev.svg">',
                                 tooltip: 'Lùi 10s',
                                 click: function () {
                                     this.backward = 10
@@ -146,6 +145,8 @@ const MovieWatch = React.forwardRef<HTMLDivElement, MovieWatchProps>(
                         ],
                     }}
                 />
+                }
+              
                 {/* <p className="my-3"> {
                     show && itemData.episodes[server].server_data[ep + 1] && <Link
                     to={buildWatchLink(ep, server)}

@@ -50,7 +50,7 @@ export async function render(
     // const ggAnalytics = import.meta.env.DEV ? '' : `<script async src="https://www.googletagmanager.com/gtag/js?id=G-JHH53M709Q"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-JHH53M709Q');</script>`
     function header() {
         const fastRefresh = import.meta.env.DEV ? `<script type="module" src="/@vite/client"></script><script type="module" src="/src/refresh-hack.js"></script>` : ''
-        const scripts = import.meta.env.PROD ? listScript.map((url) => `<link rel="preload" href="${url}" as="script" crossorigin="anonymous" />`).join('') : "";
+        const scripts = import.meta.env.PROD ? listScript.map((url) => `<link rel="prefetch" href="${url}" as="script" crossorigin="anonymous" />`).join('') : "";
         const styleStr = styles.map((url) => `<link rel="stylesheet" href="${url}" /><link rel="preload" href="${url}" as="style"/>`).join('');
         const header =
             minifyJavaScript(`<!DOCTYPE html>
@@ -65,6 +65,8 @@ export async function render(
                         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
                         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
                         <link rel="manifest" href="/site.webmanifest">
+                        <link rel="preconnect" href="https://apii.online">
+                        <link rel="preconnect" href="https://ophim1.com">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />`)
             + styleStr
             + fastRefresh 
@@ -97,7 +99,6 @@ export async function render(
         }
     )
     setResponseHeader(event, 'content-type', 'text/html');
-  
     return body;
     // body.pipe(event.node.res);
 }

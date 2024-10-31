@@ -15,7 +15,7 @@ const router: RouteObject[] = [
         path: '/',
         element: _c(Layout),
         // element: _c(Outlet),
-        errorElement: _c('div', {}, '404 Not Found'),
+        // errorElement: _c('div', {}, '404 Not Found'),
         children: [
             {
                 index: true,
@@ -23,11 +23,17 @@ const router: RouteObject[] = [
                     if (isClient) {
                         return {}
                     }
-                    return {
-                        fallback: {
-                            home: await client.v1ApiHome(),
-                        },
+                    try {
+                        return {
+                            fallback: {
+                                home: await client.v1ApiHome(),
+                            },
+                        }
+                    } catch (error) {
+                        console.error(error)
+                        return {}
                     }
+                    
                 },
                 lazy: async () => ({
                     Component: SwrConfigHOC((await import('Views/Pages/Home')).default),

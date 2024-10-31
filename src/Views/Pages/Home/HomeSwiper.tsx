@@ -1,7 +1,9 @@
+import useLazyImg from 'Hooks/useLazyImg'
 import { MovieItem } from 'lib/client'
 import { ImageTypes } from 'lib/Constants'
 import { buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -9,8 +11,9 @@ interface HomeSwiperProps {
     hotCarousel: MovieItem[]
 }
 const HomeSwiper: React.FC<HomeSwiperProps> = ({ hotCarousel }) => {
+    const ref = useLazyImg(hotCarousel.map((item) => item.thumb_url))
     return (
-        <div className="banner-box swiper-container">
+        <div className="banner-box swiper-container" ref={ref}>
             <Swiper
                 modules={[
                     Pagination,
@@ -28,15 +31,17 @@ const HomeSwiper: React.FC<HomeSwiperProps> = ({ hotCarousel }) => {
             >
                 {(hotCarousel || [{ thumb_url: '' }]).map((item, index) => (
                     <SwiperSlide key={item._id+index}>
-                        <a
-                            className="slide-img Lazy img-lazyload"
-                            style={{
-                                backgroundImage: `url(${buildWebpImageUrl(
-                                    item.slug, ImageTypes.poster
-                                )})`,
-                                display: 'block',
-                            }}
-                        ></a>
+                        <Link to={'/movie/'+item.slug} title={item.name}
+                            className="slide-img Lazy img-lazyload relative block"
+                        >
+                             <img 
+                                lazy-src={buildWebpImageUrl(item.slug, ImageTypes.poster)}
+                                alt={item.name}
+                                className="lazy-img absolute"
+                                data-animated='true'
+                                src='/images/1px.png'
+                            />
+                        </Link>
                     </SwiperSlide>
                 ))}
 
