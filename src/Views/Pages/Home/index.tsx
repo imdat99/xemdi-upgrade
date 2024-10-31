@@ -18,7 +18,8 @@ const HomeSwiper = lazy(() => import("./HomeSwiper"));
 
 const Home = () => {
     const { data, isLoading } = useSWR('home', client.v1ApiHome, {
-        revalidateIfStale: false
+        revalidateIfStale: false,
+        revalidateOnFocus: false,
     })
     const hotCarousel = React.useMemo(
         () => (data?.data.items ? data.data.items.slice(0, 5) : []),

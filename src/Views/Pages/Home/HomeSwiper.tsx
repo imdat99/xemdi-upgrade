@@ -10,6 +10,11 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 interface HomeSwiperProps {
     hotCarousel: MovieItem[]
 }
+const defaultCarousel = {
+    _id: "1", thumb_url: '',
+    slug: "#",
+    name: 'default',
+}
 const HomeSwiper: React.FC<HomeSwiperProps> = ({ hotCarousel }) => {
     const ref = useLazyImg(hotCarousel.map((item) => item.thumb_url))
     return (
@@ -29,7 +34,7 @@ const HomeSwiper: React.FC<HomeSwiperProps> = ({ hotCarousel }) => {
                 loop={!!hotCarousel.length}
                 pagination={{ clickable: true, type: 'bullets' }}
             >
-                {(hotCarousel || [{ thumb_url: '' }]).map((item, index) => (
+                {(hotCarousel.length ? hotCarousel : [defaultCarousel]).map((item, index) => (
                     <SwiperSlide key={item._id+index}>
                         <Link to={'/movie/'+item.slug} title={item.name}
                             className="slide-img Lazy img-lazyload relative block"
