@@ -109,8 +109,7 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
                                                 }}
                                             >
                                                 <Link
-                                                    
-                                                    className={"btn" + (toSlug(movieEpInfo.server_name) === server && item.slug === ep ? " active" : "")}
+                                                    className={"btn" + (toSlug(movieEpInfo.server_name) === server && item.slug === ep ? " active" : "" + (index === movieEpInfo?.server_data.length - 1 ? " last-ep" : ""))}
                                                     to={"?"+createSearchParams({
                                                         ep: String(item.slug),
                                                         server: toSlug(movieEpInfo.server_name),

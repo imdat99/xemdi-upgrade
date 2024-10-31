@@ -15,7 +15,7 @@ const router: RouteObject[] = [
         path: '/',
         element: _c(Layout),
         // element: _c(Outlet),
-        // errorElement: _c('div', {}, '404 Not Found'),
+        errorElement: _c('div', {}, '404 Not Found'),
         children: [
             {
                 index: true,
@@ -91,15 +91,21 @@ const router: RouteObject[] = [
             {
                 path: 'movie/:slug',
                 loader: async ({ params }): Promise<SWRConfiguration> => {
-                    if (isClient) {
-                        return {}
+                    try {
+                        if (isClient) {
+                            return {}
+                        }
+                        return {
+                            fallback: {
+                                [params.slug || 'slug']: await client.v1ApiPhim(
+                                    params.slug || ''
+                                ),
+                            },
+                        }
                     }
-                    return {
-                        fallback: {
-                            [params.slug || 'slug']: await client.v1ApiPhim(
-                                params.slug || ''
-                            ),
-                        },
+                    catch (error) {
+                        console.error(error)
+                        return {}
                     }
                 },
                 lazy: async () => ({

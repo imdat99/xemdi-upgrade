@@ -33,6 +33,9 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
         },
         []
     )
+    const handlePlayBtnClick = React.useCallback(() => {
+        (document.querySelector('.episode .btn.last-ep') as HTMLElement)?.click()
+    }, [])
     return (
         <div className="mobile-main mobile-main-type skeleton-text">
             <ul className="fixed-nav">
@@ -153,7 +156,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                             {movieInfo?.status}
                         </div>
                         <div className="mt-auto flex">
-                            <button className="btn playbtn" disabled={isPlay || movieInfo?.status == 'trailer'}>
+                            <button className="btn playbtn" disabled={isPlay || movieInfo?.status == 'trailer'} onClick={handlePlayBtnClick}>
                                 <i className="iconfont2 hl-icon-shipin-fill mr-1" />
                                 <span>Phát</span>
                             </button>
