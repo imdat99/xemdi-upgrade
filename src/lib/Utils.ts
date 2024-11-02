@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import { PassThrough } from "stream";
+import {Router} from "@remix-run/router";
 import { APP_DOMAIN_CDN_IMAGE, imageCdn, ImageTypes } from "./Constants";
 export const isClient = typeof window !== "undefined"
 export function minifyJavaScript(jsCode: string = ''): string {
@@ -91,7 +92,7 @@ export const class2Object = <T>(classConvert: T) => {
     }, {})
     return object as T
 }
-export const buildWebpImageUrl = (slug: string = '', type: ImageTypes = ImageTypes.thumb) => slug? [imageCdn,slug, slug+"-"+type].join('/')+'.jpg' : "images/img-bj.png";
+export const buildWebpImageUrl = (slug: string = '', imgUrl = '') => slug? [imageCdn,slug,imgUrl].join('/') : "/images/img-bj.png";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const buildOriginImageUrl = (path: string = '', type: ImageTypes = ImageTypes.thumb) => {
     const isInclude = path.includes('uploads/movies')
@@ -168,3 +169,10 @@ export function secondsToHHMMSS(totalSeconds: number): string {
 
     return `${hh}:${mm}:${ss}`;
 }
+
+export function getLoadedData(clientRoute: Router) {
+    const routeKey = clientRoute.state.matches.at(-1)?.route.id || ''
+    const loadedData = clientRoute.state.loaderData[routeKey]
+    return loadedData || {}
+}
+

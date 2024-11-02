@@ -1,12 +1,11 @@
 import React from 'react'
 import { useTheme } from '../Theme'
-import SafeRender from '../SafeRender'
 import DrawerMenu from './DrawerMenu'
 import { Link } from 'react-router-dom'
 import { Theme } from 'lib/Types'
 
 const Header = () => {
-    const [theme, setTheme] = useTheme()
+    const [,setTheme] = useTheme();
     const [visible, setVisible] = React.useState(false);
     const handleToggle = React.useCallback(() => {
         setVisible((prev) => !prev)
@@ -20,7 +19,7 @@ const Header = () => {
                 <div className="header-box flex">
                     <div className="logo-wrapper">
                         <Link to="/" className="logo">
-                             <img src="/logo.webp" alt='xemdi-logo'/>
+                             <img width="112px" height="40px" src="/logo.svg"  alt='xemdi-logo'/>
                         </Link>
                     </div>
                     <form
@@ -36,7 +35,7 @@ const Header = () => {
                             placeholder="Nhập từ khóa tìm kiếm."
                             className="search-field"
                         />
-                        <div className="suggestions">
+                        {/* <div className="suggestions">
                             <div className="history" />
                             <div className="top">
                                 <div className="movie-list-header">
@@ -64,8 +63,8 @@ const Header = () => {
                                     汪汪立功队 第六季
                                 </a>
                             </div>
-                        </div>
-                        <button className="search-button">
+                        </div> */}
+                        <button className="search-button" name='Search' aria-label="Search">
                             <span className="iconfont icon-sousuo" />
                         </button>
                     </form>
@@ -80,10 +79,10 @@ const Header = () => {
                         </li>
                         <li>
                             <div className="nav">
-                                    <SafeRender className="nav-b flex">
-                                      <span className={(theme === 'light' ? 'icon-yueliang' : 'icon-bairi')+" skin iconfont"}
+                                    <div className="nav-b flex">
+                                      <span className="theme-switch skin iconfont"
                                         onClick={handleToggletheme} />
-                                      </SafeRender>
+                                      </div>
                                 </div>
                         </li>
                         <li>

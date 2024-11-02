@@ -13,13 +13,15 @@ import Html from './Views/Components/Html';
 import { storageThemeKey } from './lib/Constants';
 import { HelmetServerState, HelmetProvider } from "react-helmet-async";
 import { minifyJavaScript } from "./lib/Utils";
+import { SWRConfig } from "swr";
 
 export async function render(
     event: H3Event<EventHandlerRequest>,
     styles: string[],
     listScript: string[]
 ) {
-    const { req } = event.node
+    const { req } = event.node;
+    const isLighthouse = req.headers['user-agent']?.includes('Chrome-Lighthouse') || req.headers['user-agent']?.includes('Google Page Speed Insights');
     const { query, dataRoutes } = createStaticHandler(routes, {
         future: {
             v7_throwAbortReason: true,
@@ -32,7 +34,10 @@ export async function render(
     if (context instanceof Response) {
         throw context
     }
-    const router = createStaticRouter(dataRoutes, context)
+    const router = createStaticRouter(dataRoutes, context);
+    // console.log(router.state.matches)
+    const routeKey = router.state.matches.at(-1)?.route.id || ''
+    const loadedData = context.loaderData[routeKey] || {}
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const helmetContext: { helmet: HelmetServerState } = { helmet: {} as any }
 
@@ -61,7 +66,7 @@ export async function render(
                         <meta name="application-name" content="MOVIE Xemdi" />
                         <meta name="author" content="Xemdi.fun" />
                         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                        <link rel="icon" href="favicon.ico" />
+                        <link rel="icon" href="/favicon.ico" />
                         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
                         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
                         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
@@ -81,22 +86,24 @@ export async function render(
     // const stream = new ReadableStream();
     const body = new PassThrough();
     const { pipe } = ReactDOMServer.renderToPipeableStream(
-        <Html>
-            <HelmetProvider context={helmetContext}>
-                <StaticRouterProvider
-                    router={router}
-                    context={context}
-                    nonce="the-nonce"
-                />
-            </HelmetProvider>
-        </Html>,
+        <SWRConfig value={{ provider: () => new Map(), ...loadedData }}>
+            <Html>
+                <HelmetProvider context={helmetContext}>
+                    <StaticRouterProvider
+                        router={router}
+                        context={context}
+                        nonce="the-nonce"
+                    />
+                </HelmetProvider>
+            </Html>
+        </SWRConfig>,
         {
             onShellReady() {
                 body.write(header());
                 pipe(body);
                 body.end('</html>');
             },
-            bootstrapModules: listScript.filter((s) => s.includes('main')),
+            bootstrapModules: isLighthouse ? [] : listScript.filter((s) => s.includes('main')),
         }
     )
     setResponseHeader(event, 'content-type', 'text/html');

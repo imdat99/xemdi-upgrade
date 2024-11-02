@@ -6,19 +6,33 @@ import {
 } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 import router from './router'
-import "assets/test.css"
-import "assets/index.css"
-import "assets/icon.css"
+import 'assets/test.css'
+import 'assets/index.css'
+import 'assets/icon.css'
+import { getLoadedData } from 'lib/Utils'
+import { SWRConfig } from 'swr'
 
 const render = () => {
+    const clientRouter = createBrowserRouter(router)
+    const data = getLoadedData(clientRouter)
     ReactDOM.hydrateRoot(
         document.getElementById('root') as HTMLElement,
-        <HelmetProvider>
-            <RouterProvider
-                router={createBrowserRouter(router)}
-                fallbackElement={<div>Loading...</div>}
-            />
-        </HelmetProvider>
+        <SWRConfig
+            value={{
+                revalidateOnFocus: false,
+                revalidateIfStale: false,
+                revalidateOnReconnect: true,
+                provider: () => new Map(),
+                ...data,
+            }}
+        >
+            <HelmetProvider>
+                <RouterProvider
+                    router={clientRouter}
+                    fallbackElement={<div>Loading...</div>}
+                />
+            </HelmetProvider>
+        </SWRConfig>
     )
 }
 // Determine if any of the initial routes are lazy

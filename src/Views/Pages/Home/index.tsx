@@ -17,9 +17,7 @@ import useLazyImg from 'Hooks/useLazyImg'
 const HomeSwiper = lazy(() => import("./HomeSwiper"));
 
 const Home = () => {
-    const { data, isLoading } = useSWR('home', client.v1ApiHome, {
-        revalidateOnFocus: false,
-    })
+    const { data, isLoading } = useSWR('home', client.v1ApiHome)
     const hotCarousel = React.useMemo(
         () => (data?.data.items ? data.data.items.slice(0, 5) : []),
         [data]
@@ -37,31 +35,37 @@ const Home = () => {
             <TopLoading loading={isLoading} />
             <div className="mobile-main">
             <div className="head flex">
-                <div className="banner">
+                <div className="banner flex-shrink-0">
                     <ClientOnly>
-                        <AppSuspense lazyComponent={HomeSwiper} hotCarousel={hotCarousel} />
+                        <AppSuspense fallback={<Fallback/>} lazyComponent={HomeSwiper} hotCarousel={hotCarousel} />
                     </ClientOnly>
                 </div>
                 <div className="head-guide">
                     <div className="head-promotion" ref={imgRef}>
                         <div className="left">
-                            <a href="https://www.shoutu.cn" className='h-100 w-100 block' target="_blank">
+                            <a href="https://xemdi.app/" className='block Lazy' target="_blank" style={{
+                            backgroundImage: "url('/images/img-bj.png')"
+                        }}>
                                 <img
                                     lazy-src="/images/imagead.png"
+                                    className='h-100 w-100 lazy-img'
                                     alt='qc1'
-                                    width="100%"
-                                    height="100%"
+                                    width="351px"
+                                    height="217px"
                                     src="/images/1px.png"
                                 />
                             </a>
                         </div>
                         <div className="right">
-                            <a href="https://www.shoutu.cn" className='h-100 w-100 block' target="_blank">
+                            <a href="https://xemdi.fun/" className='block Lazy' target="_blank" style={{
+                            backgroundImage: "url('/images/img-bj.png')"
+                        }}>
                                 <img
                                     lazy-src="/images/imagead.png"
+                                    className='h-100 w-100 lazy-img'
                                     alt='qc2'
-                                    width="100%"
-                                    height="100%"
+                                    width="351px"
+                                    height="217px"
                                     src='/images/1px.png'
                                 />
                             </a>
@@ -118,4 +122,9 @@ const Home = () => {
     )
 }
 
+const Fallback = React.memo(() => (
+    <div className="swiper-slide w-100 h-100">
+        <div className="swiper-lazy-preloader swiper-lazy-preloader-white sping"></div>
+    </div>
+))
 export default Home

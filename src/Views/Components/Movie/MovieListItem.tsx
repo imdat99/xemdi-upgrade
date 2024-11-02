@@ -1,54 +1,72 @@
 import useLazyImg from 'Hooks/useLazyImg'
-import { MovieItem } from 'lib/client'
-import { ImageTypes } from 'lib/Constants'
+import client, { MovieItem } from 'lib/client'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { buildOriginImageUrl, buildWebpImageUrl } from 'lib/Utils'
+import { buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
-import { Link } from 'react-router-dom'
-
+import LinkPreload from '../LinkPreload'
+import { preload } from 'swr'
 interface MovieListItemProps {
     movieInfo: MovieItem
 }
-const MovieListItem: React.FC<MovieListItemProps> = ({movieInfo}) => {
+const MovieListItem: React.FC<MovieListItemProps> = ({ movieInfo }) => {
     const imgBlock = useLazyImg(movieInfo.thumb_url)
-    const imgSrc = React.useMemo(() => buildWebpImageUrl(movieInfo.slug, ImageTypes.thumb), [movieInfo.slug])
+    const imgSrc = React.useMemo(
+        () => buildWebpImageUrl(movieInfo.slug, movieInfo.thumb_url),
+        [movieInfo.slug]
+    )
+    const handlePreload = React.useCallback(() => {
+        preload(movieInfo.slug, client.v1ApiPhim)
+    }, [movieInfo.slug])
     return (
         <div className="movie-list-item" ref={imgBlock}>
-            {/* <Helmet>
-                <link rel='prefetch' as="image" href={imgSrc}/>
-            </Helmet> */}
-            <Link to={'/movie/'+movieInfo.slug} title={movieInfo.name}>
+            <LinkPreload
+                to={'/movie/' + movieInfo.slug}
+                title={movieInfo.name}
+                onHover={handlePreload}
+            >
                 <div className="movie-post-wrapper">
                     <div
                         className="movie-post-lazyload Lazy"
                         data-original=""
                         style={{
-                            backgroundImage: `url('/images/img-bj.png')`
+                            backgroundImage: `url('/images/img-bj.png')`,
                         }}
                     />
-                     <img 
-                        alt={movieInfo.name}
+                    <img
+                        alt={movieInfo?.name}
                         className="lazy-img absolute "
-                        data-animated='true'
+                        data-animated="true"
                         // lazy-src={buildOriginImageUrl(movieInfo.thumb_url)}
                         lazy-src={imgSrc}
-                        src='/images/1px.png'
+                        src="/images/1px.png"
                     />
                     <div className="movie-item-score">{movieInfo?.year}</div>
                     <div className="movie-item-note">{movieInfo?.quality}</div>
                 </div>
                 <div className="movie-info">
-                    <div
-                        className="movie-title txtHide"
-                        title={movieInfo?.name}
-                    >
-                        {movieInfo?.name}
-                    </div>
-                    <div className="movie-sub txtHide" title={movieInfo?.origin_name}>
-                        {movieInfo?.origin_name}
-                    </div>
+                    {movieInfo?.name ? (
+                        <>
+                            <div
+                                className="movie-title txtHide"
+                                title={movieInfo?.name}
+                            >
+                                {movieInfo?.name}
+                            </div>
+                            <div
+                                className="movie-sub txtHide"
+                                title={movieInfo?.origin_name}
+                            >
+                                {movieInfo?.origin_name}
+                            </div>
+                        </>
+                    ) : (
+                        <>
+                            <div className="movie-title txtHide line short"></div>
+                            <div className="movie-sub txtHide line short-30"></div>
+                        </>
+                    )}
                 </div>
-            </Link>
+            </LinkPreload>
         </div>
     )
 }

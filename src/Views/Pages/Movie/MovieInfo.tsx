@@ -1,7 +1,7 @@
 import useLazyImg from 'Hooks/useLazyImg'
 import { MovieDetail } from 'lib/client'
 import { defaultServerData, ImageTypes } from 'lib/Constants'
-import { buildOriginImageUrl, buildWebpImageUrl } from 'lib/Utils'
+import { buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import PlaySource from './PlaySource'
@@ -67,9 +67,8 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                         src="/images/1px.png"
                         lazy-src={buildWebpImageUrl(
                             movieInfo?.slug,
-                            ImageTypes.poster
+                            movieInfo?.thumb_url.replace(ImageTypes.thumb, ImageTypes.poster)
                         )}
-                        origin-src={buildOriginImageUrl(movieInfo?.poster_url)}
                         alt={movieInfo?.name}
                         className="absolute movie-detail-poster"
                         // className="h-full aspect-video m-auto flex-shrink-0 object-cover opacity-0"
@@ -80,7 +79,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                 <div className="flex b-t p-2 relative">
                     <div className="poster relative">
                         <div
-                            className="movie-post-lazyload Lazy"
+                            className="movie-post-lazyload"
                             data-original=""
                             style={{
                                 backgroundImage: `url('/images/img-bj.png')`,
@@ -92,7 +91,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                             // lazy-src={buildOriginImageUrl(movieInfo.thumb_url)}
                             lazy-src={buildWebpImageUrl(
                                 movieInfo?.slug,
-                                ImageTypes.thumb
+                                movieInfo?.thumb_url
                             )}
                             alt='poster'
                             src="/images/1px.png"
@@ -156,13 +155,14 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                             {movieInfo?.status}
                         </div>
                         <div className="mt-auto flex">
-                            <button className="btn playbtn" disabled={isPlay || movieInfo?.status == 'trailer'} onClick={handlePlayBtnClick}>
+                            <button name='play movie' className="btn playbtn" disabled={isPlay || movieInfo?.status == 'trailer'} onClick={handlePlayBtnClick}>
                                 <i className="iconfont2 hl-icon-shipin-fill mr-1" />
-                                <span>Phát</span>
+                                <span>{isPlay ? "Đang phát" : "Phát"}</span>
                             </button>
-                            <button
+                            {/* <button
                                 className="btn fnBtn ml-2"
                                 title="Tuỳ chọn (danh sách phát/ Thông báo)"
+                                name='options'
                             >
                                 <i
                                     style={{
@@ -170,7 +170,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                                     }}
                                     className="iconfont2 hl-icon-jia gradient text-transparent"
                                 />
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 </div>
@@ -217,6 +217,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                         />
                         <div className="flex" style={{ justifyContent: 'end' }}>
                             <button
+                                name='submit comment'
                                 className="comment_submit btn active"
                                 type="button"
                             >

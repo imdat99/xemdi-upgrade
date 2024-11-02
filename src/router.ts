@@ -4,7 +4,6 @@ import Layout from './Views/Components/Layout';
 import { SWRConfiguration } from 'swr'
 import { isClient } from 'lib/Utils';
 import client from 'lib/client';
-import SwrConfigHOC from 'Hocs/SwrConfigHOC';
 
 /**
  * never use lazy loading in the root route,
@@ -36,7 +35,7 @@ const router: RouteObject[] = [
                     
                 },
                 lazy: async () => ({
-                    Component: SwrConfigHOC((await import('Views/Pages/Home')).default),
+                    Component: (await import('Views/Pages/Home')).default,
                 }),
             },
             {
@@ -109,7 +108,7 @@ const router: RouteObject[] = [
                     }
                 },
                 lazy: async () => ({
-                    Component: SwrConfigHOC((await import('Views/Pages/Movie')).default),
+                    Component: (await import('Views/Pages/Movie')).default,
                 }),
             },
         ],

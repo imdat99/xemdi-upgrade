@@ -52,6 +52,7 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
                         <div className="swiper-wrapper server-wrapper">
                             {episodes?.map((item, index) => (
                                 <button
+                                    name='server'
                                     className={"server-switch titleName swiper-slide"+(movieEpInfo?.server_name === item.server_name ? "  active swiper-slide-active" : "")}
                                     key={index}
                                     data-index={index}
@@ -122,6 +123,7 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
                                     {movieEpInfo?.server_data.length > 10 && (
                                         <li className="more">
                                             <button
+                                                name='more'
                                                 className="btn"
                                                 onClick={handleMore}
                                             >

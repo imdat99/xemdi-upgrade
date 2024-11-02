@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLoaderData } from 'react-router-dom'
-import { SWRConfig } from 'swr'
+import { SWRConfig, useSWRConfig } from 'swr'
 
 const SwrConfigHOC = <T extends React.FC<any> = () => JSX.Element>(
     component: T

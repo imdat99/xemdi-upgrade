@@ -4,14 +4,16 @@ type AppSuspenseProps<T extends React.FC<any>> = {
     [key in keyof React.ComponentProps<T>]: React.ComponentProps<T>[keyof React.ComponentProps<T>]
 } & {
     lazyComponent: React.LazyExoticComponent<T>
+    fallback?: React.ReactNode
 }
 
 const AppSuspense = <T extends React.FC<any>>({
     lazyComponent,
+    fallback,
     ...componentProps
 }: AppSuspenseProps<T>) => {
     return (
-        <Suspense fallback="loading...">
+        <Suspense fallback={fallback ?? "loading..."}>
             {React.createElement(lazyComponent, componentProps as any)}
         </Suspense>
     )

@@ -1,4 +1,5 @@
 import { MoviesSlugResponseBody, SeoOnPage } from 'lib/client'
+import { webUrl } from 'lib/Constants'
 import { buildWebpImageUrl } from 'lib/Utils'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -15,6 +16,7 @@ const PageSeo: React.FC<PageSeoProps> = ({ children, seoOnPage, item }) => {
         titleHead,
         descriptionHead,
         og_image,
+        seoSchema,
         // updated_time,
         // og_url,
     } = seoOnPage || {}
@@ -41,11 +43,11 @@ const PageSeo: React.FC<PageSeoProps> = ({ children, seoOnPage, item }) => {
                     ></meta>
                     <link
                         rel="canonical"
-                        href={'https://Xemdi.fun' + location.pathname}
+                        href={webUrl + location.pathname}
                     />
                     <meta
                         property="og:url"
-                        content={'https://Xemdi.fun' + location.pathname}
+                        content={webUrl + location.pathname}
                     ></meta>
                     <meta property="og:site_name" content="Xem Đi" />
                     <meta
@@ -56,6 +58,22 @@ const PageSeo: React.FC<PageSeoProps> = ({ children, seoOnPage, item }) => {
                         property="og:type"
                         content={og_type || 'website'}
                     ></meta>
+                    <script type='application/ld+json'>
+                        {JSON.stringify({
+                            '@context': 'https://schema.org',
+                            '@type': 'WebSite',
+                            name: 'Xem Đi',
+                            description,
+                            ...seoSchema,
+                            url: webUrl + location.pathname,
+                            director: webUrl,
+                            potentialAction: {
+                                '@type': 'SearchAction',
+                                target: webUrl+'/search?q={search_term_string}',
+                                'query-input': 'required name=search_term_string',
+                            },
+                        })}
+                    </script>
                 </Helmet>
             )}
             {children}

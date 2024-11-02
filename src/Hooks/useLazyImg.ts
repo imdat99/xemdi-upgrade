@@ -17,6 +17,7 @@ function loadImg(img: HTMLElement) {
             img.classList.remove('opacity-0')
             }
           img.onerror = () => {
+            if(!navigator.onLine) return;
             img.setAttribute('src', !errTimes ? resolveErrorImage(url) : "/images/1px.png")
             errTimes++;
           }

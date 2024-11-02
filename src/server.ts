@@ -91,7 +91,7 @@ async function configDev(app: App) {
         } catch (err) {
             const e = err as Error
             vite.ssrFixStacktrace(e)
-            console.log(e.stack)
+            // console.log(e.stack)
             event.node.res.statusCode = 500
             event.node.res.end(e.stack)
         }

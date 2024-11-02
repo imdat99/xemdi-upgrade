@@ -40,7 +40,7 @@ const HomeSwiper: React.FC<HomeSwiperProps> = ({ hotCarousel }) => {
                             className="slide-img Lazy img-lazyload relative block"
                         >
                              <img 
-                                lazy-src={buildWebpImageUrl(item.slug, ImageTypes.poster)}
+                                lazy-src={buildWebpImageUrl(item.slug, item.thumb_url.replace(ImageTypes.thumb,ImageTypes.poster))}
                                 alt={item.name}
                                 className="lazy-img absolute"
                                 data-animated='true'
