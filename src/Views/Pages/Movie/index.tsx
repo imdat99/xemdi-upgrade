@@ -89,6 +89,7 @@ const Movie = () => {
                 <MovieInfo
                     movieInfo={movieInfo}
                     isPlay={!!playInfo.link_m3u8}
+                    ep={ep}
                 />
                 <div className="sidebar list-w-b flex-shrink-0" >
                     <div className="top-sticky" style={{

@@ -9,9 +9,10 @@ import PlaySource from './PlaySource'
 interface MovieInfoProps {
     movieInfo?: MovieDetail;
     isPlay: boolean;
+    ep?: string;
 }
 
-const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
+const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay, ep }) => {
     const imgBlock = useLazyImg(movieInfo?.slug)
     const handleExpand = React.useCallback(
         (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -105,7 +106,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                                         className="movie-title"
                                         title={movieInfo?.name}
                                     >
-                                        {movieInfo?.name}{' '}
+                                        {movieInfo?.name}{' '}{ep && `- Tập ${ep}`}
                                     </h1>
                                     <h2 className="movie-title movie-sub-title">
                                         {movieInfo?.origin_name}
@@ -126,10 +127,10 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ movieInfo, isPlay }) => {
                                     </span>
                                 </Link>
                             ))}
-                            <Link to="/index.php/vod/search/year/2013.html">
+                            <Link to={String(movieInfo?.year)}>
                                 {movieInfo?.year}
                             </Link>
-                            <Link to="/index.php/vod/search/year/2013.html">
+                            <Link to={movieInfo?.type || "#"}>
                                 {movieInfo?.type || 'Unknown'}
                             </Link>
                         </div>

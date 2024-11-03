@@ -69,7 +69,7 @@ const PageSeo: React.FC<PageSeoProps> = ({ children, seoOnPage, item }) => {
                             director: webUrl,
                             potentialAction: {
                                 '@type': 'SearchAction',
-                                target: webUrl+'/search?q={search_term_string}',
+                                target: webUrl+'/tim-kiem?q={search_term_string}',
                                 'query-input': 'required name=search_term_string',
                             },
                         })}

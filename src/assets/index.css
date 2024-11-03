@@ -464,7 +464,24 @@ ul {
   display: inline-block;
   cursor: pointer
 }
+.bm-item:hover {
+  color: var(--STUI-COLOR-0);
+}
+.bm-item.active {
+  position: relative;
+  color: var(--STUI-COLOR-0);
+}
+.bm-item.active::after {
+  position: absolute;
+    bottom: 2px;
+    left: 30px;
+    width: 20px;
+    height: 3px;
+    border-radius: 4px;
+    content: "";
+    background: var(--STUI-COLOR-0);
 
+}
 .bm-overlay {
   background: rgba(0, 0, 0, .3)
 }

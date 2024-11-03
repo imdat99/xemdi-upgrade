@@ -2,8 +2,8 @@ import { createElement as _c } from 'react'
 import { RouteObject } from 'react-router-dom'
 import Layout from './Views/Components/Layout';
 import { SWRConfiguration } from 'swr'
-import { isClient } from 'lib/Utils';
-import client from 'lib/client';
+import { isClient, parseParams } from 'lib/Utils';
+import client, { Slug } from 'lib/client';
 
 /**
  * never use lazy loading in the root route,
@@ -72,21 +72,27 @@ const router: RouteObject[] = [
                     
             //     },
             // },
-            // {
-            //     path: 'category',
-            //     lazy: async () => ({
-            //         Component: (await import('./views/pages/Category')).default,
-            //     }),
-            //     loader: async ({ request }): Promise<SWRConfiguration>=> {
-            //         if (isClient) return {}
-            //         const searchParams = parseParams(request.url)
-            //         return {
-            //             fallback: {
-            //                 [searchParams?.slug || JSON.stringify(searchParams)]: await client.v1ApiDanhSach(searchParams.slug as Slug || Slug.PhimMoi, searchParams.page || 1, searchParams as any),
-            //             },
-            //         }
-            //     },
-            // },
+            {
+                path: Slug.PhimLe,
+                lazy: async () => ({
+                    Component: (await import('Views/Pages/Category')).default,
+                }),
+            },
+            {
+                path: 'category',
+                lazy: async () => ({
+                    Component: (await import('Views/Pages/Category')).default,
+                }),
+                // loader: async ({ request }): Promise<SWRConfiguration>=> {
+                //     if (isClient) return {}
+                //     const searchParams = parseParams(request.url)
+                //     return {
+                //         fallback: {
+                //             [searchParams?.slug || JSON.stringify(searchParams)]: await client.v1ApiDanhSach(searchParams.slug as Slug || Slug.PhimMoi, searchParams.page || 1, searchParams as any),
+                //         },
+                //     }
+                // },
+            },
             {
                 path: 'movie/:slug',
                 loader: async ({ params }): Promise<SWRConfiguration> => {

@@ -1,4 +1,4 @@
-import { Episode } from "./client";
+import { Episode, Slug } from "./client";
 import { Theme } from "./Types";
 
 export const defaultTheme: Theme = "light" as const;
@@ -12,27 +12,47 @@ export enum ImageTypes {
     poster = "poster",
     thumb = "thumb",
 }
+export enum NavType {
+    HomeNav,
+    Nav,
+}
 export const menuList = [
     {
-        name: "Phim Rạp",
-        link: "/index.php/vod/type/id/1.html",
+        name: "Bộ lọc",
+        link: "/category",
+        icon: "iconfont2 hl-icon-shaixuan w-100 text-center",
+        type: NavType.Nav,
+    },
+    {
+        type: NavType.HomeNav,
+        name: "Phim lẻ",
+        link: Slug.PhimLe,
         icon: "iconfont2 hl-icon-dianying gradient text-transparent",
     },
     {
+        type: NavType.HomeNav,
         name: "Phim bộ",
-        link: "/index.php/vod/type/id/3.html",
+        link: Slug.PhimBo,
         icon: "iconfont2 hl-icon-xingxing gradient text-transparent",
     },
     {
+        type: NavType.HomeNav,
         name: "TV Seri",
-        link: "/index.php/vod/type/id/2.html",
+        link: Slug.TvShows,
         icon: "iconfont2 hl-icon-dianshiju gradient text-transparent",
     },
     {
+        type: NavType.HomeNav,
         name: "Hoạt hình",
-        link: "/index.php/vod/type/id/4.html",
+        link: Slug.HoatHinh,
         icon: "iconfont2 hl-icon-dongman gradient text-transparent",
     },
+    {
+        type: NavType.Nav,
+        name: "Tài khoản",
+        link: "/user",
+        icon: "iconfont2 hl-icon-tuijian w-100 text-center",
+    }
 ]
 export const defaultServerData: Episode = {
     server_name: "Loading...",

@@ -1,7 +1,7 @@
 import { menuList } from 'lib/Constants'
 import React, { PropsWithChildren } from 'react'
 import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 interface DrawerMenuProps extends PropsWithChildren {
     visible: boolean
@@ -31,9 +31,9 @@ const DrawerMenu: React.FC<DrawerMenuProps> = React.memo(({
                     <nav className="bm-item-list">
                         {
                             menuList.map((item, index) => (
-                                <Link to={item.link} className="bm-item" key={index} >
+                                <NavLink to={item.link} className={({isActive}) => ["bm-item", isActive?"active": ""].join(" ")} key={index} >
                                     {item.name}
-                                </Link>
+                                </NavLink>
                             ))
                         }
                     </nav>

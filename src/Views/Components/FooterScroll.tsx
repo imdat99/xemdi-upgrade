@@ -1,34 +1,62 @@
+import { menuList, NavType } from 'lib/Constants'
+import { scrollToTop } from 'lib/Utils'
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const FooterScroll = () => {
+    const mobileRef = React.useRef<HTMLDivElement>(null)
+    const handleSwitch = () => {
+        mobileRef.current?.classList.toggle('ec-lrshow')
+    }
     return (
         <>
             <ul className="fixed-nav">
-                <li className="fixed-nav-content flex first ecTop" data-id="1">
-                    电影
-                </li>
-                <li className="fixed-nav-content flex ecTop" data-id="2">
-                    电视剧
-                </li>
-
-                <li className="fixed-nav-content flex last ecTop">
+                {menuList
+                    .filter((i) => i.type == NavType.Nav)
+                    .map((item, index) => (
+                        <li
+                            key={index}
+                            title={item.name}
+                            className='flex ecTop'
+                            data-id={index + 1}
+                        >
+                            <Link
+                                style={{
+                                    fontSize: '1.25rem',
+                                    color: 'var(--SUB-TITLE)',
+                                }}
+                                to={item.link}
+                                className={[item.icon,"fixed-nav-content",(index == 0 ? 'first' : '')].join(" ")}
+                            />
+                        </li>
+                    ))}
+                <li
+                    className="fixed-nav-content flex last ecTop"
+                    onClick={scrollToTop}
+                >
                     <span className="iconfont icon-shouqi"></span>
                 </li>
             </ul>
             <div className="ec-footer_scroll">
-                <div className="ec-lrmenu" id="switch">
-                    <a href="#" className="ecTop">
+                <div className="ec-lrmenu" ref={mobileRef}>
+                    <a className="ecTop" onClick={scrollToTop}>
                         <i className="iconfont icon-shouqi" />
                     </a>
-                    <a href="/index.php/gbook/index.html" title="留言">
-                        <i className="iconfont icon-fankuixuanzhong" />
-                    </a>
-                    <a href="#" title="主题切换">
-                        <i className="skin iconfont icon-yueliang" />
-                    </a>
+                    {menuList
+                        .filter((i) => i.type == NavType.Nav)
+                        .map((item, index) => (
+                            <Link
+                                key={index}
+                                style={{
+                                    fontSize: '1.25rem',
+                                }}
+                                to={item.link}
+                                className={item.icon}
+                            />
+                        ))}
                 </div>
                 <a
-                    href="#"
+                    onClick={handleSwitch}
                     title="菜单"
                     className="ec-lrmenukey active"
                 >

@@ -30,9 +30,17 @@ export async function render(
 
     const remixRequest = await createFetchRequest(event)
     const context = await query(remixRequest)
-
     if (context instanceof Response) {
         throw context
+    }
+    if (context?.errors) {
+        const body = await readBody(event)
+        console.log({
+            time: new Date().toISOString(),
+            request: JSON.stringify(req.headers),
+            body: JSON.stringify(body),
+            errors: JSON.stringify(context.errors),
+        })
     }
     const router = createStaticRouter(dataRoutes, context);
     // console.log(router.state.matches)

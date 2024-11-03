@@ -28,7 +28,7 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
             const index = parseInt(e.currentTarget.dataset.index || '0')
             setMovieEpInfo(episodes!.at(Number(index))!)
         }
-        const handleMore = () => {
+        const handleMore = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
             document
                 .querySelectorAll('.content_playlist li')
                 .forEach((item, index) => {
@@ -36,8 +36,9 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
                         ;(item as HTMLElement).style.display = 'block'
                     }
                 })
-            ;(document.querySelector('.more') as HTMLElement).style.display =
-                'none'
+                e.currentTarget.style.display = 'none'
+            // ;(document.querySelector('.more') as HTMLElement).style.display =
+            //     'none'
         }
         return (
             <div className="play-select card" ref={ref}>
@@ -121,11 +122,10 @@ const PlaySource = React.forwardRef<HTMLDivElement, PlaySourceProps>(
                                             </li>
                                         ))}
                                     {movieEpInfo?.server_data.length > 10 && (
-                                        <li className="more">
+                                        <li className="more" onClick={handleMore}>
                                             <button
                                                 name='more'
                                                 className="btn"
-                                                onClick={handleMore}
                                             >
                                                 Xem thêm
                                             </button>
