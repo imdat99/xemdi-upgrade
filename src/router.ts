@@ -2,7 +2,7 @@ import { createElement as _c } from 'react'
 import { RouteObject } from 'react-router-dom'
 import Layout from './Views/Components/Layout';
 import { SWRConfiguration } from 'swr'
-import { isClient, parseParams } from 'lib/Utils';
+import { isClient } from 'lib/Utils';
 import client, { Slug } from 'lib/client';
 
 /**
@@ -95,7 +95,9 @@ const router: RouteObject[] = [
             },
             {
                 path: 'movie/:slug',
-                loader: async ({ params }): Promise<SWRConfiguration> => {
+                loader: async (args): Promise<SWRConfiguration> => {
+                    const params = args.params
+                    console.log(Object.keys(args))
                     try {
                         if (isClient) {
                             return {}
@@ -109,8 +111,15 @@ const router: RouteObject[] = [
                         }
                     }
                     catch (error) {
-                        console.error(error)
-                        return {}
+                        console.log({
+                            time: new Date().toISOString(),
+                            error: args.request,
+                        })
+                        return {
+                            fallback: {
+                                error: error,
+                            },
+                        }
                     }
                 },
                 lazy: async () => ({

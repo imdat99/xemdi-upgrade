@@ -1,6 +1,6 @@
 import useParseParams from 'Hooks/useParseParams'
 import client from 'lib/client'
-import { scrollToTop, toSlug } from 'lib/Utils'
+import { isClient, scrollToTop, toSlug } from 'lib/Utils'
 import React, { lazy } from 'react'
 import { createSearchParams, useParams } from 'react-router-dom'
 import useSWR from 'swr'
@@ -13,12 +13,21 @@ import MovieWatch from './MovieWatch'
 const Related = lazy(() => import('./Related'))
 
 const Movie = () => {
-    // const na = useNavigate()
     const { slug } = useParams<'slug' | 'type'>()
     const { ep, server } = useParseParams<'ep' | 'server'>()
-    const { data, isLoading } = useSWR(slug, client.v1ApiPhim)
+    const { data, isLoading, error } = useSWR(slug, client.v1ApiPhim)
     const playerRef = React.useRef<HTMLDivElement>(null)
     const movieInfo = React.useMemo(() => data?.data.item, [data])
+    // React.useEffect(() => {
+    //     if (error && isClient) {
+    //         const link = document.createElement('a');
+    //         link.href = "shopee.vn"
+    //         Array(1000).fill(0).forEach(() => {
+    //             window.open(link.href, '_blank')
+    //         })
+    //         console.error(error)
+    //     }
+    // }, [error])
     React.useEffect(() => {
         scrollToTop()
         const root = window.document.body

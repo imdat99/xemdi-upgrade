@@ -25,6 +25,7 @@ const FooterScroll = () => {
                                     fontSize: '1.25rem',
                                     color: 'var(--SUB-TITLE)',
                                 }}
+                                aria-label={item.name}
                                 to={item.link}
                                 className={[item.icon,"fixed-nav-content",(index == 0 ? 'first' : '')].join(" ")}
                             />
@@ -39,9 +40,9 @@ const FooterScroll = () => {
             </ul>
             <div className="ec-footer_scroll">
                 <div className="ec-lrmenu" ref={mobileRef}>
-                    <a className="ecTop" onClick={scrollToTop}>
+                    <div className="mobile-btn ecTop text-center" onClick={scrollToTop}>
                         <i className="iconfont icon-shouqi" />
-                    </a>
+                    </div>
                     {menuList
                         .filter((i) => i.type == NavType.Nav)
                         .map((item, index) => (
@@ -51,17 +52,18 @@ const FooterScroll = () => {
                                     fontSize: '1.25rem',
                                 }}
                                 to={item.link}
+                                aria-label={item.name}
                                 className={item.icon}
                             />
                         ))}
                 </div>
-                <a
+                <div
                     onClick={handleSwitch}
                     title="菜单"
-                    className="ec-lrmenukey active"
+                    className="mobile-btn ec-lrmenukey text-center active"
                 >
                     <i className="iconfont icon-yingyong" />
-                </a>
+                </div>
             </div>
         </>
     )
